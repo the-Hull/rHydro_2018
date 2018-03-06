@@ -10,6 +10,9 @@ library(purrr)
 library(rgdal)
 library(fs)
 library(broom)
+library(forcats)
+
+source("./src/01_presentation.R")
 
 # Pull meta data ----------------------------------------------------------
 
@@ -256,11 +259,12 @@ uk_nested <- uk_nested %>%
       mutate(model = map(data, ~lm(`maximum-gauging-flow` ~ catchmentArea, data = .x)),
              predict = map2(model, data, predict))
 
-uk_unnest <- uk_nested %>% 
-      tidyr::unnest(data, predict)
+# uk_unnest <- uk_nested %>% 
+#       tidyr::unnest(data, predict)
 
 
 models <- list(
+      null_intercept = function(x){lm(`maximum-gauging-flow` ~ 1, data = x)},
       ca = function(x){lm(`maximum-gauging-flow` ~ catchmentArea, data = x)},
       ca_dplbar_bfihost = function(x){lm(`maximum-gauging-flow` ~ 
                                                catchmentArea + DPLBAR + BFIHOST, data = x)},
@@ -280,8 +284,8 @@ apply_model <- function(.model, ndf){
 
 uk_nest <- models %>% 
       map_df(apply_model, uk_nested, .id = "id_model") %>% 
-      mutate(prediction = map2(model, data, predict),
-             resid = map(model, resid)) %>% 
+      # mutate(prediction = map2(model, data, predict),
+      #        resid = map(model, resid)) %>% 
       select(id_model, country, model) %>% 
       mutate(param = map(model, tidy),
              assess = map(model, glance)) %>% 
@@ -313,15 +317,40 @@ uk_param <- uk_param %>%
                                                       "not sign." = "grey95"))
 param.plot
 
+uk_assess <- uk_assess %>% group_by(country) %>% arrange(AIC, .by_group = T) %>% 
+      rename(AIC_val = AIC) %>% 
+      mutate(minAIC = ifelse(AIC_val == min(AIC_val, na.rm = T),"minimum", "> minimum"))
 
-aic.plot <- uk_assess %>% 
-      ggplot(aes(x = id_model, y = AIC, fill = adj.r.squared)) +
-      geom_bar(stat = "identity", position = 'dodge', col = 'gray20') +
-      coord_flip() +
-      facet_grid(~country, scales = 'free_x') +
-      theme_bw() +
-      theme(panel.grid.major.x = element_blank(),
-            panel.grid.minor.x = element_blank())
+
+uk_aic_min <- uk_assess %>%  summarise(minAIC_val = min(AIC_val, na.rm = T)) %>% 
+            right_join(uk_assess %>% select(country, id_model))
+
+aic.plot <-  uk_assess %>% 
+      ggplot(aes(x = id_model, y = AIC_val, group = 1)) +
+      geom_line(linetype = 2) +
+      geom_point(aes(fill = uk_assess$minAIC), size = 5, shape = 21, col = 'gray20') +
+      stat_summary(geom = "text",
+                   fun.y = function(x){min(x,na.rm=T)*0.97},
+                   label = round(uk_assess$adj.r.squared,2)) +
+      facet_grid(country~., scales = 'free_y') +
+      theme_presi() +
+      theme(panel.grid.major.y = element_line(color = "gray90"),
+            panel.border = element_blank(),
+            panel.spacing = unit(2, "lines"),
+            axis.text.x = element_text(angle = 15, hjust = 1),
+            plot.title = element_text(hjust = 0),
+            plot.subtitle = element_text(colour = 'gray60')) +
+      scale_y_continuous(expand = c(0.1,0)) +
+      scale_fill_manual(name = "AIC comparison", 
+                        values = c("> minimum" = "gray40",
+                                   "minimum" = "steelblue")) +
+      labs(x = "Model", y = "AIC") +
+      ggtitle(label = "Model selection", subtitle = "via relative and absolute goodness of fit")
+      # geom_bar(stat = "identity", position = 'dodge', col = 'gray20') +
+      # geom_text(data = uk_aic_min,
+      #           aes(x = id_model,
+      #               y = minAIC_val,
+      #               label = .97*round(uk_assess$adj.r.squared,2))) +
 aic.plot
 
 # test
