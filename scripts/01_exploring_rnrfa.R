@@ -80,7 +80,7 @@ exp_catchment_area.plot <- all_stations %>%
                  y = `maximum-gauging-flow`,
                  col = country)) +
       geom_point(alpha = .3) +
-      facet_grid(~country, scales = "fixed") +
+      facet_wrap(~country, scales = "free_x") +
       theme_bw()
 exp_catchment_area.plot
 
