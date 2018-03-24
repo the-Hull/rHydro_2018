@@ -36,3 +36,4 @@ vignettes/*.pdf
 
 /dat/GBR_adm/
 /dat/CEH_FEH/
+.Rproj.user
