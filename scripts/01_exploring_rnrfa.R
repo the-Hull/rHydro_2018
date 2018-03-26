@@ -16,10 +16,13 @@ source("./src/01_presentation.R")
 
 # Pull meta data ----------------------------------------------------------
 
+###
+## Acknowledgement: Data from the UK National River Flow Archive ##
+###
 
 
 # Collect all station information
-all_stations <- catalogue() # or rnfra::stationSummary 
+all_stations <- catalogue() # rnfra::stationSummary available for meta data
 
 # Initial exploration:
 names(all_stations)
@@ -39,13 +42,13 @@ all_stations <- all_stations %>%
 # first look at data
 str(all_stations)
 
-# select columns where type change is necessary
+# columns where class change is necessary
 char2num <- c("catchmentArea", "altitude", "maximum-gauging-flow", "lat", "lon")
 
 all_stations[ ,char2num] %<>% sapply(as.numeric)
 sapply(all_stations, class)
 
-# plot 
+# quick exploratory plot 
 exp_catchment_area.plot <- all_stations %>% 
       ggplot(aes(x = catchmentArea,
                  y = `maximum-gauging-flow`,
@@ -53,6 +56,7 @@ exp_catchment_area.plot <- all_stations %>%
       geom_point() +
       theme_bw() 
 exp_catchment_area.plot
+
 
 
 

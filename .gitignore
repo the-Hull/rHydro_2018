@@ -37,3 +37,6 @@ vignettes/*.pdf
 /dat/GBR_adm/
 /dat/CEH_FEH/
 .Rproj.user
+
+/presentation/01_rHydro_AGLHurley_proc-mod-viz_cache/
+/presentaiton/01_rHydro_AGLHurley_proc-mod-viz_files/
