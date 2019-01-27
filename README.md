@@ -1,5 +1,5 @@
 ### Using R in hydrology: a review of recent developments and future directions (Slater *et al.*, 2019; in prep.)
-#### Supplemental Material Processing, modelling and vizualising hydrological data in R
+#### Supplemental Material: Processing, modelling and vizualising hydrological data in R
 
 *Full Citation:*
 
