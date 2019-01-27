@@ -1,3 +1,7 @@
+[![DOI](https://zenodo.org/badge/123999066.svg)](https://zenodo.org/badge/latestdoi/123999066)
+
+
+
 ### Using R in hydrology: a review of recent developments and future directions (Slater *et al.*, 2019; in prep.)
 #### Supplemental Material: Processing, modelling and vizualising hydrological data in R
 
