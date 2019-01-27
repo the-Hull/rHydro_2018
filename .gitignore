@@ -34,12 +34,20 @@ vignettes/*.pdf
 
 *.Rda
 
-/dat/GBR_adm/
-/dat/CEH_FEH/
 .Rproj.user
 
 /presentation/01_rHydro_AGLHurley_proc-mod-viz_cache/
 /presentaiton/01_rHydro_AGLHurley_proc-mod-viz_files/
-rHydro.zip
 
+rHydro.zip
+*.zip
 /scripts
+*.CD2
+*.PT
+*.AM
+*.CSV
+
+*.md
+*.html
+
+presentation/01_rHydro_AGLHurley_proc-mod-viz_files
