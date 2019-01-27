@@ -1,7 +1,7 @@
 ---
 title: "Processing, modelling and vizualising hydrological data in R"
 author: "<br> Alexander Hurley <br> a.g.hurley@pgr.bham.ac.uk <br> https://aglhurley.rbind.io"
-date: "March 24, 2018"
+date: "May 05, 2018"
 output: 
   html_document:
     theme: flatly
@@ -16,9 +16,7 @@ output:
 
 ```{r setup, echo=FALSE, cache=FALSE, include=FALSE}
 library(knitr)
-# library(rmdformats)
 library(magrittr)
-# library(formatR)
 
 ## Global options
 options(max.print="80")
@@ -56,81 +54,81 @@ Using (peak flow) data from the UK [National River Flow Archive](http://nrfa.ceh
 
 **Question:**
 
-<!-- - Q1: What impact does catchment area have on peak flows, and does it differ between countries? -->
-- Which catchment properties affect peak flows and which set of characteristics make up the most representative models?
+- Q1: What impact does catchment area have on peak flows, and does it differ between countries?
+- Q2: Which catchment properties affect peak flows and which set of characteristics make up the most representative models?
 
 <br>
 
 # Why use the `tidyverse`?
 
-<!-- ## We all want to.. -->
+## We all want to..
 
-<!-- <br> -->
+<br>
 
-<!-- <center> -->
-<!-- ![ [Data analysis pipeline](http://r4ds.had.co.nz/introduction.html#what-you-will-learn) ](../img/tidy.png) -->
+<center>
+![ [Data analysis pipeline (taken from R4DS by H. Wickham)](http://r4ds.had.co.nz/introduction.html#what-you-will-learn) ](../img/tidy.png)
 
-<!-- </center> -->
-<!-- <br> -->
-
-
-<!-- ## Tidy philosphy -->
-
-<!-- <big> [The `tidyverse` philosophy postulates](http://tidyverse.tidyverse.org/articles/manifesto.html): </big> -->
-
-<!-- - Reuse existing data structures. -->
-<!-- - Compose simple functions with the pipe. -->
-<!-- - Embrace functional programming. -->
-<!-- - Design for humans. -->
-
-<!-- <br> -->
-
-<!-- ## Concept: Piping -->
-
-<!-- $$ data~\rightarrow~f(data,~paramaters)~\rightarrow~output$$ --> 
-
-<!-- > *data*  $\rightarrow$  **f**(*data*, parameters)  $\rightarrow$  outputs -->
-
-<!-- ```{r exp, echo = T, eval = T} -->
-<!-- library(dplyr) # based on package magrittr, but loaded as dependency -->
-
-<!-- 1:10 %>% mean() -->
-<!-- ``` -->
-<!-- <br> -->
-
-<!-- --- -->
-
-<!-- <big>**More tangible example with iris data set**: </big> -->
-
-<!-- ```{r iris_table, echo = F, rows.print=5} -->
-<!-- library(dplyr) -->
-
-<!-- iris %>%  -->
-<!--   select(Species,  -->
-<!--          Sepal.Length,  -->
-<!--          Sepal.Width,  -->
-<!--          Petal.Length,  -->
-<!--          Petal.Width) %>% # re-arrange data frame -->
-<!--   head(20)  -->
+</center>
+<br>
 
 
-<!-- # str(iris) -->
-<!-- ``` -->
+## Tidy philosphy
 
-<!-- <br> -->
-<!-- <big> **Application:** </big> -->
-<!-- ```{r pipe_example, echo=T} -->
+<big> [The `tidyverse` philosophy postulates](http://tidyverse.tidyverse.org/articles/manifesto.html): </big>
+
+- Reuse existing data structures.
+- Compose simple functions with the pipe.
+- Embrace functional programming.
+- Design for humans.
+
+<br>
+
+## Concept: Piping
+
+$$ data~\rightarrow~f(data,~paramaters)~\rightarrow~output$$
+
+> *data*  $\rightarrow$  **f**(*data*, parameters)  $\rightarrow$  outputs
+
+```{r exp, echo = T, eval = T}
+library(dplyr) # based on package magrittr, but loaded as dependency
+
+1:10 %>% mean()
+```
+<br>
+
+---
+
+<big>**More tangible example with iris data set**: </big>
+
+```{r iris_table, echo = F, rows.print=5}
+library(dplyr)
+
+iris %>%
+  select(Species,
+         Sepal.Length,
+         Sepal.Width,
+         Petal.Length,
+         Petal.Width) %>% # re-arrange data frame
+  head(20)
 
 
-<!-- library(dplyr) -->
+# str(iris)
+```
 
-<!-- iris %>%  -->
-<!--   group_by(Species) %>%  -->
-<!--   summarise_all(mean) %>%  -->
-<!--   as.data.frame()  -->
+<br>
+<big> **Application:** </big>
+```{r pipe_example, echo=T}
 
 
-<!-- ``` -->
+library(dplyr)
+
+iris %>%
+  group_by(Species) %>%
+  summarise_all(mean) %>%
+  as.data.frame()
+
+
+```
 
 ---
 
@@ -166,28 +164,28 @@ example_result
 
 ```
 
-<!-- Useful (and powerful) approach for error-handling when using lists with unexpected data values with `possibly`: -->
+Useful (and powerful) approach for error-handling when using lists with unexpected data values with `possibly`:
 
-<!-- ```{r exp_possibly, echo=T} -->
+```{r exp_possibly, echo=T}
 
-<!-- example_list <- list(first = data.frame(val = 1:5), -->
-<!--                      second = "not_a_number",  -->
-<!--                      third = data.frame(val = 11:15)) -->
+example_list <- list(first = data.frame(val = 1:5),
+                     second = "not_a_number",
+                     third = data.frame(val = 11:15))
 
-<!-- # NOTRUN -->
-<!-- # lapply(example_list, sum) -->
+# NOTRUN
+# lapply(example_list, sum)
 
-<!-- # this fails with:  -->
-<!-- # Error in FUN(X[[i]], ...) : invalid 'type' (character) of argument -->
-<!-- ``` -->
+# this fails with:
+# Error in FUN(X[[i]], ...) : invalid 'type' (character) of argument
+```
 
-<!-- Instead, we make a "possibly function" to catch the error.  -->
+Instead, we make a "possibly function" to catch the error.
 
-<!-- ```{r exp_possibly_apply, echo=T} -->
-<!-- possible_sum <- possibly(sum, otherwise = "I am a failure, forgive me.") -->
-<!-- lapply(example_list, possible_sum) # also works with map! -->
+```{r exp_possibly_apply, echo=T}
+possible_sum <- possibly(sum, otherwise = "I am a failure, forgive me.")
+lapply(example_list, possible_sum) # also works with map!
 
-<!-- ``` -->
+```
 
 
 <br>
@@ -400,7 +398,7 @@ Please refer to http://nrfa.ceh.ac.uk/costs-terms-and-conditions prior to any re
 
 ```{r cd3_function, echo=F}
 
-# custom function to read in files
+# custom function to read in FEH files
 read_cd3 <- function(data){
   
   readr::read_csv(data, skip = 8) %>%
@@ -512,74 +510,74 @@ In a first step we will apply a simple linear model, and then build upon `tidyve
 
 ---
 
-<!-- <br> -->
+<br>
 
-<!-- ## Q1: Does size matter? -->
+## Q1: Does size matter?
 
-<!-- **Recall:**  -->
+**Recall:**
 
-<!-- Q1: What impact does catchment area have on peak flows, and does it differ between countries? -->
+Q: What impact does catchment area have on peak flows, and does it differ between countries?
 
-<!-- --- -->
+---
 
-<!-- ### Analyses: -->
+### Analyses:
 
-<!-- ```{r resid_plot, fig.width = 8, fig.align='center', fig.height=5, echo = T} -->
+```{r resid_plot, fig.width = 8, fig.align='center', fig.height=5, echo = T}
 
-<!-- library(modelr) -->
+library(modelr)
 
-<!-- # transform peak flow and catchment area with log10 in new object -->
-<!-- p_data <- all_stations %>%  -->
-<!--   mutate(peak_flow_cumecs_log = log10(peak_flow_cumecs), -->
-<!--          ca_log = log10(catchmentArea)) %>%  -->
-<!--   filter(is.finite(peak_flow_cumecs_log), -->
-<!--          is.finite(ca_log)) -->
+# transform peak flow and catchment area with log10 in new object
+p_data <- all_stations %>%
+  mutate(peak_flow_cumecs_log = log10(peak_flow_cumecs),
+         ca_log = log10(catchmentArea)) %>%
+  filter(is.finite(peak_flow_cumecs_log),
+         is.finite(ca_log))
 
-<!-- p_data -->
-
-
-
-<!-- # apply lm -->
-<!-- catchment_area_country.mod <- lm(peak_flow_cumecs_log ~ ca_log + country, data = p_data) -->
-<!-- catchment_area.mod <- lm(peak_flow_cumecs_log ~ ca_log, data = p_data) -->
-
-<!-- anova(catchment_area.mod, catchment_area_country.mod) -->
-
-
-<!-- # check summary -->
-<!-- catchment_area_country.mod %>% summary() -->
-
-<!-- # tidy look -->
-<!-- catchment_area_country.mod %>% broom::tidy() -->
-
-
-<!-- # add residuals to new object -->
-<!-- countries.resid <- p_data %>% -->
-<!--   add_residuals(catchment_area_country.mod, var = "resid_ca_c") -->
-
-<!-- # Quick peak at the residuals (don't forget QQ and Leverage Plots..) -->
-<!-- countries.resid %>% -->
-<!--   ggplot(aes(x = ca_log, y = resid_ca_c, col = country)) + -->
-<!--   geom_ref_line(h = 0, colour = "gray60", size = 1) + -->
-<!--   geom_point(size = 2, alpha = .6) + -->
-<!--   theme_presi() + -->
-<!--   facet_wrap(~country) + -->
-<!--   labs(x = "log catchment area (sq km)", y = "log peak flow (cumecs)") -->
+p_data
 
 
 
-<!-- ``` -->
+# apply lm
+catchment_area_country.mod <- lm(peak_flow_cumecs_log ~ ca_log + country, data = p_data)
+catchment_area.mod <- lm(peak_flow_cumecs_log ~ ca_log, data = p_data)
 
-<!-- ### Results (Part I) -->
-
-<!-- We compared two models, and found that including country enhances our ability to represent the relationship between peak flows and catchment area:  -->
-
-<!-- - Peak flow increases approximately by an order of magnitude **($\beta_1$ = r coef(catchment_area_country.mod)[2] %>% round(2))** as we increase our catchment area by an order of magnitude (recall our  $log_{10}$ transformation) -->
-<!-- - This relationship holds for all countries, but peak flows at a given catchment area tend to be largest for **Wales ( > Scotland > Northern Irealand > England)** -->
+anova(catchment_area.mod, catchment_area_country.mod)
 
 
+# check summary
+catchment_area_country.mod %>% summary()
 
-## Q: Catchment characteristics
+# tidy look
+catchment_area_country.mod %>% broom::tidy()
+
+
+# add residuals to new object
+countries.resid <- p_data %>%
+  add_residuals(catchment_area_country.mod, var = "resid_ca_c")
+
+# Quick peak at the residuals (don't forget QQ and Leverage Plots..)
+countries.resid %>%
+  ggplot(aes(x = ca_log, y = resid_ca_c, col = country)) +
+  geom_ref_line(h = 0, colour = "gray60", size = 1) +
+  geom_point(size = 2, alpha = .6) +
+  theme_presi() +
+  facet_wrap(~country) +
+  labs(x = "log catchment area (sq km)", y = "log peak flow (cumecs)")
+
+
+
+```
+
+### Results (Part I)
+
+We compared two models, and found that including country enhances our ability to represent the relationship between peak flows and catchment area:
+
+- Peak flow increases approximately by an order of magnitude **($\beta_1$ = r coef(catchment_area_country.mod)[2] %>% round(2))** as we increase our catchment area by an order of magnitude (recall our  $log_{10}$ transformation)
+- This relationship holds for all countries, but peak flows at a given catchment area tend to be largest for **Wales ( > Scotland > Northern Irealand > England)**
+
+
+
+## Q2: Catchment characteristics
 
 **Recall:**
 
@@ -780,10 +778,6 @@ aic_plot <- function(){
   aic.plot <-  uk_performance %>% 
     ggplot(aes(x = id_model, y = dAIC, group = 1, label = round(adj.r.squared,2))) +
     geom_line(linetype = 2) +
-    # geom_point(size = 9, fill = "white",shape = 21, aes(col = minAIC)) +
-    # stat_summary(geom = "text",
-    #              fun.y = function(x){min(x,na.rm=T)*1.3  + 2},
-    #              label = round(uk_performance$adj.r.squared,3), aes(group = id_model)) +
     geom_label(aes(label = as.character(round(adj.r.squared,2)),
                    fill = minAIC),color = "white", size = 5) +
     facet_grid(country~., scales = 'free_y') +
@@ -795,7 +789,6 @@ aic_plot <- function(){
           plot.title = element_text(hjust = 0),
           plot.subtitle = element_text(colour = 'gray60'),
           legend.position = "top") +
-    # guides(colour = guide_legend(override.aes = list(shape = 16))) +
     scale_y_continuous(expand = c(0.1,0)) +
     scale_fill_manual(name = "AIC comparison", 
                       values = c("less support" = "darkred",
