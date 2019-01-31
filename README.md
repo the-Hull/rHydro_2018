@@ -49,4 +49,6 @@ Following the [DOI](https://zenodo.org/badge/latestdoi/123999066), please refer 
 
 **BibTeX**  
 
+```
 @article{alexander hurley_2019, title={Processing, modelling and vizualising hydrological data in R}, DOI={10.5281/zenodo.2553980}, abstractNote={<p>This repository contains a all code, data and images to to reproduce the *.html* output of my <a href="https://meetingorganizer.copernicus.org/EGU2018/session/28914">short course contribution at EGU 2018</a>. Details can be found here: [the-Hull/rHydro_2018](https://github.com/the-Hull/rHydro_2018)</p>}, note={Note: Data from the UK National River Flow Archive. Please refer to http://nrfa.ceh.ac.uk/costs-terms-and-conditions prior to any re-use}, publisher={Zenodo}, author={Alexander Hurley}, year={2019}, month={Jan}}
+```
