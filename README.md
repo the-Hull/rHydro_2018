@@ -43,11 +43,11 @@ Other materials from this course can be found [here](https://github.com/hydrosoc
 
 Following the [DOI](https://zenodo.org/badge/latestdoi/123999066), please refer to this work as:
 
-* Alexander Hurley. (2017, April). Using R in Hydrology (EGU2018): Processing, modelling and visualizing hydrological data in R (Version 1.1.1). Zenodo. http://doi.org/10.5281/zenodo.2553998
+* Alexander Hurley. (2018, April). Using R in Hydrology (EGU2018): Processing, modelling and visualizing hydrological data in R (Version 1.1.1). Zenodo. http://doi.org/10.5281/zenodo.2553998
 
 
 **BibTeX**  
 
 ```
-@misc{hurley_rhydro2017, title={Using R in Hydrology (EGU2018): Processing, modelling and visualizing hydrological data in R}, DOI={10.5281/zenodo.2553998}, abstractNote={<p>This repository contains a stand-alone version to reproduce my <a href="https://meetingorganizer.copernicus.org/EGU2018/session/28914">short course contribution at EGU 2018</a> with updated links and citation references, and can be found on my <a href="https://github.com/the-Hull/rHydro_2018">GitHub repository</a></p>}, publisher={Zenodo}, author={Alexander Hurley}, year={2017}, month={Apr}}
+@misc{hurley_rhydro2018, title={Using R in Hydrology (EGU2018): Processing, modelling and visualizing hydrological data in R}, DOI={10.5281/zenodo.2553998}, abstractNote={<p>This repository contains a stand-alone version to reproduce my <a href="https://meetingorganizer.copernicus.org/EGU2018/session/28914">short course contribution at EGU 2018</a> with updated links and citation references, and can be found on my <a href="https://github.com/the-Hull/rHydro_2018">GitHub repository</a></p>}, publisher={Zenodo}, author={Alexander Hurley}, year={2018}, month={Apr}}
 ```
