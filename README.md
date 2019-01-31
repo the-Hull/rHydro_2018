@@ -5,6 +5,7 @@
 
 [Description](#Description) 
 / [Use](#Use) 
+/ [Citation](#Citation]
 / [Short Course Details](#course_details) 
 
 # Processing, modelling and vizualising hydrological data in R 
@@ -22,6 +23,18 @@ Files in this repository are intendeded to be used with the latest version of R 
 To reproduce the presentation clone or download (and unzip) this repository to your local machine and open the project file **rHydro_2018.proj**. 
 Navigate to and open the presentation file [**./presentation/01_rHydro_AGLHurley_proc-mod-viz.Rmd**](https://github.com/the-Hull/rHydro_2018/blob/master/presentation/01_rHydro_AGLHurley_proc-mod-viz.Rmd). 
 Lastly, click the *knit* below the tabs bar in the RStudio IDE.
+
+## Citation
+
+Following the [DOI](https://zenodo.org/badge/latestdoi/123999066), please refer to this work as:
+
+* Alexander Hurley. (2019, January 31). Processing, modelling and vizualising hydrological data in R (Version 1.1). Zenodo. http://doi.org/10.5281/zenodo.2553980  
+* Alexander Hurley, 2019. Processing, modelling and vizualising hydrological data in R. doi:10.5281/zenodo.2553980  
+
+
+**BibTeX**  
+
+@article{alexander hurley_2019, title={Processing, modelling and vizualising hydrological data in R}, DOI={10.5281/zenodo.2553980}, abstractNote={<p>This repository contains a all code, data and images to to reproduce the *.html* output of my <a href="https://meetingorganizer.copernicus.org/EGU2018/session/28914">short course contribution at EGU 2018</a>. Details can be found here: [the-Hull/rHydro_2018](https://github.com/the-Hull/rHydro_2018)</p>}, note={Note: Data from the UK National River Flow Archive. Please refer to http://nrfa.ceh.ac.uk/costs-terms-and-conditions prior to any re-use}, publisher={Zenodo}, author={Alexander Hurley}, year={2019}, month={Jan}}
 
 ## <a name="course_details"></a> Using R in Hydrology - EGU 2018 Course Details 
 Conveners: Louise Slater, Shaun Harrigan, Tobias Gauster, Alexander Hurley, Guillaume Thirel, Claudia Vitolo
