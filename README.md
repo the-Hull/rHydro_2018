@@ -8,7 +8,7 @@
 / [Short Course Details](#course_details) 
 / [Citation](#Citation)
 
-# Processing, modelling and vizualising hydrological data in R 
+# Processing, modelling and visualizing hydrological data in R 
 
 ## <a name="Desc"></a> Description
 
